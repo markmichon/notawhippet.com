@@ -41,11 +41,11 @@
     "develop": "gatsby develop",
     "build": "run-p build:**",
     "build:app": "gatsby build",
-    "build:lambda": "netlify-lambda build src/lambda",
+    "build:lambda": "netlify-lambda build src/functions",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "run-p start:**",
     "start:app": "npm run develop",
-    "start:lambda": "NODE_ENV=development netlify-lambda --config webpack.functions.js serve src/lambda",
+    "start:lambda": "NODE_ENV=development netlify-lambda --config webpack.functions.js serve src/functions",
     "serve": "gatsby serve"
   },
   "repository": {
