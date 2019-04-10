@@ -5,11 +5,10 @@
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import { createGlobalStyle, ThemeProvider } from "styled-components"
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 const Style = createGlobalStyle`
 html {
@@ -50,23 +49,10 @@ embed, iframe, img, object, video {
 }
 `
 const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <>
-        <Style />
-        {children}
-      </>
-    )}
-  />
+  <>
+    <Style />
+    {children}
+  </>
 )
 
 Layout.propTypes = {
