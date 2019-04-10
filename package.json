@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "browser-image-manipulation": "^0.2.1",
     "dotenv": "^7.0.0",
     "file-type": "^10.9.0",
     "gatsby": "^2.2.5",
@@ -16,6 +17,7 @@
     "gatsby-plugin-styled-components": "^3.0.7",
     "gatsby-source-filesystem": "^2.0.27",
     "gatsby-transformer-sharp": "^2.1.17",
+    "get-orientation": "^1.1.0",
     "got": "^9.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
