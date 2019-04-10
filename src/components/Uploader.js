@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react"
 import { parsePrediction, buildPredictionString } from "../utils"
 import { useDropzone } from "react-dropzone"
+import { getOrientation } from "get-orientation/browser"
+import BrowserImageManipulation from "browser-image-manipulation"
 import DogIcon from "./DogIcon"
 import styled from "styled-components"
 
@@ -53,15 +55,20 @@ function Uploader(props) {
   const [image, setImage] = useState(null)
   const [prediction, setPrediction] = useState(null)
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback(async acceptedFiles => {
     console.log("---Dropped---")
+    let orientations = [0, 0, 0, 180, 0, 270, 90, 90, 270]
     const reader = new FileReader()
     if (acceptedFiles[0]) {
-      reader.readAsDataURL(acceptedFiles[0])
-    }
-    reader.onloadend = () => {
-      setImage(reader.result)
-      let datauri = reader.result.split(",")[1]
+      const orientation = await getOrientation(acceptedFiles[0])
+      const imgURI = await new BrowserImageManipulation()
+        .loadBlob(acceptedFiles[0])
+        .rotate(orientations[orientation])
+        .resize(800, 800)
+        .saveAsImage()
+
+      setImage(imgURI)
+      let datauri = imgURI.split(",")[1]
       fetch(`/.netlify/functions/check-image`, {
         method: "POST",
         body: JSON.stringify({ file: datauri }),
@@ -96,8 +103,15 @@ function Uploader(props) {
       ) : (
         <div>
           <Image src={image} />
-          {prediction && buildPredictionString(prediction)}
-          <Retry onClick={e => setImage(null)}>Try another image</Retry>
+          {!prediction ? <p>Loading...</p> : buildPredictionString(prediction)}
+          <Retry
+            onClick={e => {
+              setImage(null)
+              setPrediction(null)
+            }}
+          >
+            Try another image
+          </Retry>
         </div>
       )}
     </>
