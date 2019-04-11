@@ -1,11 +1,10 @@
-import React from "react"
-import { Link } from "gatsby"
-import { Heading, Text } from "../components/radicals"
-import Layout from "../components/layout"
+import React from 'react'
+import { Heading, Text } from '../components/radicals'
+import Layout from '../components/layout'
 
-import Uploader from "../components/Uploader"
+import Uploader from '../components/Uploader'
 
-import styled from "styled-components"
+import styled from 'styled-components'
 const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
