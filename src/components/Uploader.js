@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from 'react'
-import { parsePrediction, buildPredictionString } from '../utils'
-import { useDropzone } from 'react-dropzone'
-import { getOrientation } from 'get-orientation/browser'
-import BrowserImageManipulation from 'browser-image-manipulation'
-import DogIcon from './DogIcon'
-import styled from 'styled-components'
+import React, { useState, useCallback } from "react"
+import { parsePrediction, buildPredictionString } from "../utils"
+import { useDropzone } from "react-dropzone"
+import compress from "image-file-compress"
+import DogIcon from "./DogIcon"
+import styled from "styled-components"
 
 const Container = styled.div`
   border-width: 2px;
@@ -56,22 +55,15 @@ function Uploader(props) {
   const [prediction, setPrediction] = useState(null)
 
   const onDrop = useCallback(async acceptedFiles => {
-    console.log('---Dropped---')
-    let orientations = [0, 0, 0, 180, 0, 270, 90, 90, 270]
-    const reader = new FileReader()
+    console.log("---Dropped---")
     if (acceptedFiles[0]) {
-      const orientation = await getOrientation(acceptedFiles[0])
-
-      const imgURI = await new BrowserImageManipulation()
-        .loadBlob(acceptedFiles[0])
-        .rotate(orientations[orientation])
-        .resize(800, 800)
-        .saveAsImage()
-      setImage(imgURI)
-
-      let datauri = imgURI.split(',')[1]
+      const { path } = await compress(acceptedFiles[0], {
+        rotate: true,
+        max_width: 800,
+      })
+      let datauri = path.split(",")[1]
       fetch(`/.netlify/functions/check-image`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ file: datauri }),
       })
         .then(res => res.json())
@@ -88,7 +80,7 @@ function Uploader(props) {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: ['image/jpeg', 'image/png', 'image/bmp'],
+    accept: ["image/jpeg", "image/png", "image/bmp"],
   })
 
   return (
