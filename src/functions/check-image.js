@@ -1,13 +1,15 @@
-const got = require('got')
-export async function handler(event, context, callback) {
+import got from "got"
+import dotenv from "dotenv"
+dotenv.config()
+export async function handler(event, context) {
   const body = JSON.parse(event.body)
-  const fileBuffer = Buffer.from(body['file'], 'base64')
+  const fileBuffer = Buffer.from(body["file"], "base64")
   let response
   try {
     response = await got
       .post(process.env.AZURE_PREDICTION_URL, {
         headers: {
-          'Prediction-key': process.env.AZURE_PREDICTION_KEY,
+          "Prediction-key": process.env.AZURE_PREDICTION_KEY,
         },
         body: fileBuffer,
       })
