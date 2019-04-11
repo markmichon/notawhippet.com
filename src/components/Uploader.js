@@ -61,6 +61,7 @@ function Uploader(props) {
         rotate: true,
         max_width: 800,
       })
+      setImage(path)
       let datauri = path.split(",")[1]
       fetch(`/.netlify/functions/check-image`, {
         method: "POST",
