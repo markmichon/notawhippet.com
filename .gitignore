@@ -64,5 +64,9 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
+# Built functins
 lambda/
-build/
+
+# Gatsby Related
+public/
+.cache/
