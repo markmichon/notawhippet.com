@@ -68,5 +68,5 @@ yarn-error.log
 lambda/
 
 # Gatsby Related
-public
+public/
 .cache/

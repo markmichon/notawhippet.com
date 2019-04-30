@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react"
+import ky from "ky"
 import { parsePrediction, buildPredictionString } from "../utils"
 import { useDropzone } from "react-dropzone"
 import compress from "image-file-compress"
@@ -63,19 +64,39 @@ function Uploader(props) {
       })
       setImage(path)
       let datauri = path.split(",")[1]
-      fetch(`/.netlify/functions/check-image`, {
-        method: "POST",
-        body: JSON.stringify({ file: datauri }),
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data)
-          let predictionResponse = parsePrediction(data.predictions)
-          setPrediction(predictionResponse)
-        })
-        .catch(error => {
-          console.error(error)
-        })
+      // fetch(`/.netlify/functions/check-image`, {
+      //   method: "POST",
+      //   body: JSON.stringify({ file: datauri }),
+      // })
+      //   // PERFORM STATUS CODE CHECK, then retry if needed
+      //   .then(res => {
+      //     console.log(res)
+      //     if (!res.ok) {
+      //       throw new Error(res.statusText)
+      //     }
+      //     return res.json()
+      //   })
+      //   .then(data => {
+      //     console.log(data)
+      //     let predictionResponse = parsePrediction(data.predictions)
+      //     setPrediction(predictionResponse)
+      //   })
+      //   .catch(error => {
+      //     console.error(error)
+      //   })
+
+      try {
+        const parsed = await ky
+          .post(`/.netlify/functions/check-image`, {
+            retry: 2,
+            json: { file: datauri },
+          })
+          .json()
+        let predictionResponse = parsePrediction(parsed.predictions)
+        setPrediction(predictionResponse)
+      } catch (error) {
+        // do error
+      }
     }
   }, [])
 
