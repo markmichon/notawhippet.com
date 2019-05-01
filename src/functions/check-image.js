@@ -4,6 +4,7 @@ dotenv.config()
 export async function handler(event, context) {
   const body = JSON.parse(event.body)
   const fileBuffer = Buffer.from(body["file"], "base64")
+  console.log("Invoked: ", new Date(Date.now()).toUTCString())
   let response
   try {
     response = await got
@@ -14,7 +15,6 @@ export async function handler(event, context) {
         body: fileBuffer,
       })
       .then(res => {
-        console.log(res)
         if (res.statusCode === 500) {
           throw new Error(res.body)
         }
@@ -27,7 +27,7 @@ export async function handler(event, context) {
         console.log(err)
         return {
           statusCode: 200,
-          body: err,
+          body: JSON.stringify({ msg: err }),
         }
       })
   } catch (error) {
