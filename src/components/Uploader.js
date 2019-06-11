@@ -61,6 +61,7 @@ function Uploader(props) {
       const { path } = await compress(acceptedFiles[0], {
         rotate: true,
         max_width: 800,
+        output_type : 'image/jpg'
       })
       setImage(path)
       let datauri = path.split(",")[1]
