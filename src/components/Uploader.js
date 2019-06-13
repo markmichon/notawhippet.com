@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from "react"
-import ky from "ky"
 import { parsePrediction, buildPredictionString } from "../utils"
 import { useDropzone } from "react-dropzone"
 import compress from "image-file-compress"
@@ -74,12 +73,22 @@ function Uploader(props) {
         setImage(path)
         datauri = path.split(",")[1]
         try {
-          const parsed = await ky
-            .post(`/.netlify/functions/check-image`, {
-              retry: 2,
-              json: { file: datauri },
+          let parsed = await fetch(`/.netlify/functions/check-image`, {
+            method: "POST",
+            body: JSON.stringify({ file: datauri }),
+            headers: {
+              "content-type": "application/json",
+            },
+          }).then(res => {
+            if (res.ok) {
+              return res.json()
+            }
+            return Promise.reject({
+              status: res.status,
+              statusText: res.statusText,
             })
-            .json()
+          })
+
           let predictionResponse = parsePrediction(parsed.predictions)
           setPrediction(predictionResponse)
         } catch (error) {
