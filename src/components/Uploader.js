@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react"
 import ky from "ky"
-import useFetch from "../utils/fetchHook"
 import { parsePrediction, buildPredictionString } from "../utils"
 import { useDropzone } from "react-dropzone"
 import compress from "image-file-compress"
