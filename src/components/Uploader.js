@@ -46,6 +46,24 @@ const Retry = styled.button`
   margin: 8px 0;
 `
 
+// Recursive fetch to retry on 500 error
+// (hacky workaround to an occasional lambda first-run issue)
+
+const fetchPlus = (url, options, retry) =>
+  fetch(url, options).then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    if (retry > 0 && res.status === 500) {
+      console.log("Retrying...")
+      return fetchPlus(url, options, retry - 1)
+    }
+    return Promise.reject({
+      status: res.status,
+      statusText: res.statusText,
+    })
+  })
+
 //TODO
 // limit filesize to 4mb
 // limit to jpg, png, bmp
@@ -73,22 +91,17 @@ function Uploader(props) {
         setImage(path)
         datauri = path.split(",")[1]
         try {
-          let parsed = await fetch(`/.netlify/functions/check-image`, {
-            method: "POST",
-            body: JSON.stringify({ file: datauri }),
-            headers: {
-              "content-type": "application/json",
+          let parsed = await fetchPlus(
+            `/.netlify/functions/check-image`,
+            {
+              method: "POST",
+              body: JSON.stringify({ file: datauri }),
+              headers: {
+                "content-type": "application/json",
+              },
             },
-          }).then(res => {
-            if (res.ok) {
-              return res.json()
-            }
-            return Promise.reject({
-              status: res.status,
-              statusText: res.statusText,
-            })
-          })
-          console.log(parsed)
+            1
+          )
           let predictionResponse = parsePrediction(parsed.predictions)
           setPrediction(predictionResponse)
         } catch (error) {
