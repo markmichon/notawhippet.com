@@ -1,10 +1,10 @@
-import React from 'react'
-import { Heading, Text } from '../components/radicals'
-import Layout from '../components/layout'
+import React from "react"
+import { Heading, Text } from "../components/radicals"
+import Layout from "../components/layout"
 
-import Uploader from '../components/Uploader'
+import Uploader from "../components/Uploader"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -66,6 +66,15 @@ const Overlay = styled.div`
   justify-items: center;
 `
 
+const ExtLink = styled.a`
+  color: hsl(344, 65%, 51%);
+  font-weight: bold;
+  text-decoration: none;
+  &:hover {
+    color: hsl(344, 65%, 65%);
+  }
+`
+
 function IndexPage() {
   return (
     <Layout>
@@ -111,7 +120,10 @@ function IndexPage() {
                 padding: 1rem;
               `}
             >
-              <Text color="#ccc">blah blah @ markmichon</Text>
+              <Text color="#ccc">
+                Created by{" "}
+                <ExtLink href="https://markmichon.com">Mark Michon</ExtLink>
+              </Text>
             </footer>
           </BottomHalf>
         </Container>
