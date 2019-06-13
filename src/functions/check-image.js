@@ -4,7 +4,6 @@ dotenv.config()
 export async function handler(event, context) {
   const body = JSON.parse(event.body)
   const fileBuffer = Buffer.from(body["file"], "base64")
-  console.log("Invoked: ", new Date(Date.now()).toUTCString())
   let response
   try {
     response = await got
@@ -31,7 +30,6 @@ export async function handler(event, context) {
         }
       })
   } catch (error) {
-    // console.log(error)
     response = error
   }
 
