@@ -106,14 +106,14 @@ function Uploader(props) {
           setPrediction(predictionResponse)
         } catch (error) {
           console.log(error)
-          setError("Server failed to response, try again")
+          setError("Server failed to respond, try uploading another image")
         }
       } else {
         console.log("path not set")
         // setError("File was not the correct type")
       }
     } else {
-      setError("File type not accepted, try an image")
+      setError("File type not accepted, try another image")
     }
   }
 
