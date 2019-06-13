@@ -83,7 +83,6 @@ function Uploader(props) {
             if (res.ok) {
               return res.json()
             }
-            console.log(res.status)
             return Promise.reject({
               status: res.status,
               statusText: res.statusText,
@@ -94,7 +93,7 @@ function Uploader(props) {
           setPrediction(predictionResponse)
         } catch (error) {
           console.log(error)
-          setError(error)
+          setError("Server failed to response, try again")
         }
       } else {
         console.log("path not set")
