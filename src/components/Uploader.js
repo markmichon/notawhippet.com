@@ -79,15 +79,19 @@ function Uploader(props) {
             headers: {
               "content-type": "application/json",
             },
-          }).then(res => {
-            if (res.ok) {
-              return res.json()
-            }
-            return Promise.reject({
-              status: res.status,
-              statusText: res.statusText,
-            })
           })
+            .then(res => {
+              if (res.ok) {
+                return res.json()
+              }
+              return Promise.reject({
+                status: res.status,
+                statusText: res.statusText,
+              })
+            })
+            .catch(err => {
+              setError(err)
+            })
 
           let predictionResponse = parsePrediction(parsed.predictions)
           setPrediction(predictionResponse)
