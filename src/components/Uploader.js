@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import ky from "ky"
+import useFetch from "../utils/fetchHook"
 import { parsePrediction, buildPredictionString } from "../utils"
 import { useDropzone } from "react-dropzone"
 import compress from "image-file-compress"
@@ -54,58 +55,67 @@ const Retry = styled.button`
 function Uploader(props) {
   const [image, setImage] = useState(null)
   const [prediction, setPrediction] = useState(null)
+  const [error, setError] = useState(null)
 
-  const onDrop = useCallback(async acceptedFiles => {
-    console.log("---Dropped---")
-    if (acceptedFiles[0]) {
-      const { path } = await compress(acceptedFiles[0], {
-        rotate: true,
-        max_width: 800,
-        output_type : 'image/jpg'
-      })
-      setImage(path)
-      let datauri = path.split(",")[1]
-      // fetch(`/.netlify/functions/check-image`, {
-      //   method: "POST",
-      //   body: JSON.stringify({ file: datauri }),
-      // })
-      //   // PERFORM STATUS CODE CHECK, then retry if needed
-      //   .then(res => {
-      //     console.log(res)
-      //     if (!res.ok) {
-      //       throw new Error(res.statusText)
-      //     }
-      //     return res.json()
-      //   })
-      //   .then(data => {
-      //     console.log(data)
-      //     let predictionResponse = parsePrediction(data.predictions)
-      //     setPrediction(predictionResponse)
-      //   })
-      //   .catch(error => {
-      //     console.error(error)
-      //   })
-
+  const onDrop = async (acceptedFiles, rejectedFiles) => {
+    let datauri = null
+    let path = null
+    if (acceptedFiles.length > 0) {
       try {
-        const parsed = await ky
-          .post(`/.netlify/functions/check-image`, {
-            retry: 2,
-            json: { file: datauri },
-          })
-          .json()
-        let predictionResponse = parsePrediction(parsed.predictions)
-        setPrediction(predictionResponse)
-      } catch (error) {
-        // do error
+        const data = await compress(acceptedFiles[0], {
+          rotate: true,
+          max_width: 800,
+          output_type: "image/jpg",
+        })
+        path = data.path
+      } catch (err) {
+        setError("Something went wrong processing the image. Please try again.")
       }
+      if (path) {
+        setImage(path)
+        datauri = path.split(",")[1]
+        try {
+          const parsed = await ky
+            .post(`/.netlify/functions/check-image`, {
+              retry: 2,
+              json: { file: datauri },
+            })
+            .json()
+          let predictionResponse = parsePrediction(parsed.predictions)
+          setPrediction(predictionResponse)
+        } catch (error) {
+          setError(error)
+        }
+      } else {
+        console.log("path not set")
+        // setError("File was not the correct type")
+      }
+    } else {
+      setError("File type not accepted, try an image")
     }
-  }, [])
+  }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: ["image/jpeg", "image/png", "image/bmp"],
   })
 
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+        <Retry
+          onClick={e => {
+            setImage(null)
+            setPrediction(null)
+            setError(null)
+          }}
+        >
+          Try another image
+        </Retry>
+      </div>
+    )
+  }
   return (
     <>
       {!image ? (
