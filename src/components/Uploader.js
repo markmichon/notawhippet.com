@@ -80,7 +80,7 @@ function Uploader(props) {
       try {
         const data = await compress(acceptedFiles[0], {
           rotate: true,
-          max_width: 800,
+          max_width: 550,
           output_type: "image/jpg",
         })
         path = data.path
@@ -92,7 +92,7 @@ function Uploader(props) {
         datauri = path.split(",")[1]
         try {
           let parsed = await fetchPlus(
-            `/.netlify/functions/check-image`,
+            `/api/check-image`,
             {
               method: "POST",
               body: JSON.stringify({ file: datauri }),
@@ -102,7 +102,8 @@ function Uploader(props) {
             },
             1
           )
-          let predictionResponse = parsePrediction(parsed.predictions)
+          let { predictions } = parsed.body
+          let predictionResponse = parsePrediction(predictions)
           setPrediction(predictionResponse)
         } catch (error) {
           console.log(error)
