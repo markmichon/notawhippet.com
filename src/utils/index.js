@@ -1,6 +1,8 @@
 // Parse prediction response
 export function parsePrediction(predictions) {
   // Iterate over predictions and return only the prediction with the highest probability
+  console.log(predictions)
+
   return predictions.reduce((winner, current) =>
     current.probability > winner.probability ? current : winner
   )

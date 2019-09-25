@@ -19,23 +19,16 @@
     "styled-system": "^4.1.0"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
+    "@now/node": "^1.0.0",
     "babel-plugin-styled-components": "^1.10.0",
+    "dotenv": "^7.0.0",
     "dotenv-webpack": "^1.7.0",
-    "http-proxy-middleware": "^0.19.1",
-    "netlify-lambda": "^1.4.3",
-    "prettier": "^1.16.4",
-    "dotenv": "^7.0.0"
+    "prettier": "^1.16.4"
   },
   "license": "MIT",
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "run-p start:**",
-    "start:app": "yarn run develop",
-    "start:lambda": "netlify-lambda serve src/functions",
-    "build": "run-p build:**",
-    "build:app": "gatsby build",
-    "build:lambda": "netlify-lambda build src/functions",
+    "develop": "gatsby develop -p $PORT",
+    "build": "gatsby build",
     "format": "prettier --write \"src/**/*.js\""
   },
   "browserslist": [
