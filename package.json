@@ -6,10 +6,12 @@
   "author": "Mark Michon <hello@markmichon.com>",
   "dependencies": {
     "gatsby": "^2.3.17",
+    "gatsby-plugin-preact": "^3.1.14",
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-styled-components": "^3.0.7",
     "got": "^9.6.0",
     "image-file-compress": "^2.1.0",
+    "preact": "^10.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
