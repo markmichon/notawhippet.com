@@ -1,5 +1,6 @@
 import React from "react"
 import { Heading, Text } from "../components/radicals"
+import {Helmet} from 'react-helmet'
 import Layout from "../components/layout"
 
 import Uploader from "../components/Uploader"
@@ -75,9 +76,27 @@ const ExtLink = styled.a`
   }
 `
 
+function SEO() {
+  const title = "Not a Whippet"
+  const description = "Not sure if a dog is an Italian Greyhound or a Whippet? Use machine learning to find out."
+
+  return (
+    <Helmet title={title}>
+      <meta name="description" content={description} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:url" content="https://notawhippet.com" />
+      <meta name="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
+      <meta name="twitter:creator" content="@markmichon" />
+    </Helmet>
+  )
+}
+
 function IndexPage() {
   return (
     <Layout>
+      <SEO />
       <PageWrapper>
         <Container>
           <TopHalf>
