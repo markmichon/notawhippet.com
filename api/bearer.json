@@ -1,3 +1,0 @@
-{
-  "stripSensitiveKeys": ["^prediction-key$"]
-}
