@@ -4,6 +4,7 @@
   "env": {
     "AZURE_PREDICTION_URL": "@azure-prediction-url",
     "AZURE_PREDICTION_KEY": "@azure-prediction-key",
-    "BEARER_SECRET_KEY": "@bearer-secret"
+    "BEARER_SECRET_KEY": "@bearer-secret",
+    "BEARER_AGENT_CONFIG_FILE": "@bearer-config-path"
   }
 }
