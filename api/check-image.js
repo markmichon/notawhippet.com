@@ -1,6 +1,7 @@
 import got from "got"
 import dotenv from "dotenv"
-dotenv.config()
+// dotenv.config()
+import "@bearer/node-agent"
 module.exports = async (req, res) => {
   // console.log(req.body)
   const { file } = req.body

@@ -3,6 +3,8 @@
   "alias": "notawhippet.com",
   "env": {
     "AZURE_PREDICTION_URL": "@azure-prediction-url",
-    "AZURE_PREDICTION_KEY": "@azure-prediction-key"
+    "AZURE_PREDICTION_KEY": "@azure-prediction-key",
+    "BEARER_SECRET_KEY": "@bearer-secret",
+    "BEARER_AGENT_STRIP_SENSITIVE_KEYS": "@bearer-agent-strip-sensitive-keys"
   }
 }
