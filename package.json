@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "Mark Michon <hello@markmichon.com>",
   "dependencies": {
-    "@bearer/node-agent": "^0.3.7",
+    "@bearer/node-agent": "^2.0.7",
     "gatsby": "^2.3.17",
     "gatsby-plugin-preact": "^3.1.14",
     "gatsby-plugin-react-helmet": "^3.0.12",
