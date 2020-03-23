@@ -73,3 +73,5 @@ lambda/
 # Gatsby Related
 public/
 .cache/
+
+.now

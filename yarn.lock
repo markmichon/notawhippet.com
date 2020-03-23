@@ -770,14 +770,13 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@bearer/node-agent@^0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@bearer/node-agent/-/node-agent-0.3.7.tgz#84669caa0785425c50b7738783c3ba125cb80167"
-  integrity sha512-Fum0szaaLB98AK1fLuEagaJ5MyfqZSJ4xUadFIqdyTrzXrU4MJ79aDDgfZi1fdyAWq9VAiXCm3WLKO2YC3S0sw==
+"@bearer/node-agent@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@bearer/node-agent/-/node-agent-2.0.7.tgz#2f3202156b9fdeb165d1f3afa9ff486b43d28995"
+  integrity sha512-rP0nYffxrFve2fkTZJ2iu/1lOaOdyYXMe5Xxf8VJne9RRE0fUL1BZyuGu1bmh+dktZKkpwzESNZVMT0EMExsRA==
   dependencies:
     lodash.throttle "^4.1.1"
     semver "^6.3.0"
-    winston "^3.2.1"
 
 "@emotion/is-prop-valid@^0.8.1":
   version "0.8.3"
